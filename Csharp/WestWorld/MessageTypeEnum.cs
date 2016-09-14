@@ -4,6 +4,9 @@
     {
         unknown,
         HiHoneyImHome,
-        StewReady
+        StewReady,
+        MinerEnteredTheBar,
+        LetsDanceBuddy,
+        YouThrowAMeanHook
     }
 }

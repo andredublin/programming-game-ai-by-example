@@ -45,6 +45,8 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WestWorld\BarFly.cs" />
+    <Compile Include="WestWorld\BarFlyOwnedStates.cs" />
     <Compile Include="WestWorld\BaseGameEntity.cs" />
     <Compile Include="WestWorld\EntityManager.cs" />
     <Compile Include="WestWorld\EntityNamesEnum.cs" />

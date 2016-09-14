@@ -220,14 +220,24 @@ namespace Csharp.WestWorld
             {
                 entity.ChangeLocation(Location.saloon);
                 Console.WriteLine(string.Format("{0}: Boy, ah sure is thusty! Walking to the saloon", entity.Name));
+
+                GameManager.Dispatch().DispatchMessage(
+                    MessageDispatcher.SEND_MESSAGE_IMMEDIATELY,
+                    entity.Id,
+                    EntityNamesEnum.BarFly,
+                    MessageTypeEnum.MinerEnteredTheBar,
+                    null);
             }
         }
 
         public override void Execute(Miner entity)
         {
-            entity.BuyAndDrinkWhiskey();
-            Console.WriteLine(string.Format("{0}: That's mighty fine sippin' liquer", entity.Name));
-            entity.GetFSM().ChangeState(EnterMineAndDigForNuggetState.GetInstance());
+            if (!entity.IsInFight)
+            {
+                entity.BuyAndDrinkWhiskey();
+                Console.WriteLine(string.Format("{0}: That's mighty fine sippin' liquer", entity.Name));
+                entity.GetFSM().ChangeState(EnterMineAndDigForNuggetState.GetInstance());
+            }
         }
 
         public override void Exit(Miner entity)
@@ -237,6 +247,18 @@ namespace Csharp.WestWorld
 
         public override bool OnMessage(Miner entity, Telegram message)
         {
+            switch (message.Message)
+            {
+                case MessageTypeEnum.LetsDanceBuddy:
+                    Console.WriteLine(string.Format("{0}: This here varmint is tryin' to take me fer all my gold!", entity.Name));
+                    entity.SetInAFight(true);
+                    return true;
+                case MessageTypeEnum.YouThrowAMeanHook:
+                    Console.WriteLine(string.Format("{0}: Next time pick on someone your own size", entity.Name));
+                    entity.SetInAFight(false);
+                    return true;
+            }
+
             return false;
         }
     }

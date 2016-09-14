@@ -25,7 +25,7 @@ namespace Csharp.WestWorld
         {
             var rand = new Random();
             ;
-            //1 in 10 chance of needing the bathroom (provided she is not already in the bathroom)
+            // 1 in 10 chance of needing the bathroom (provided she is not already in the bathroom)
             if (rand.Next(0, 9) < 1 && !entity.GetFSM().IsInState(VisitBathroom.GetInstance()))
             {
                 entity.GetFSM().ChangeState(VisitBathroom.GetInstance());

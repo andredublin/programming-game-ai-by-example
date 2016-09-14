@@ -4,6 +4,7 @@
     {
         unknown,
         MinerBob,
-        Elsa
+        Elsa,
+        BarFly
     }
 }

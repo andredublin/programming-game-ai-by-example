@@ -4,8 +4,7 @@ namespace Csharp.WestWorld
 {
     public class MinersWife : BaseGameEntity
     {
-        private StateMachine<MinersWife> _stateMachine;
-
+        private readonly StateMachine<MinersWife> _stateMachine;
         public readonly string Name;
 
         public Location Location { get; private set; }
@@ -18,11 +17,6 @@ namespace Csharp.WestWorld
             _stateMachine = new StateMachine<MinersWife>(this);
             _stateMachine.SetCurrentState(DoHouseWork.GetInstance());
             _stateMachine.SetGlobalState(WifesGlobalState.GetInstance());
-        }
-
-        ~MinersWife()
-        {
-            _stateMachine = null;
         }
 
         public override void Update()
