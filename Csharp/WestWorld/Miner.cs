@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Csharp.WestWorld
+﻿namespace Csharp.WestWorld
 {
     public class Miner : BaseGameEntity
     {

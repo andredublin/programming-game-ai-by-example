@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Csharp.WestWorld
 {
     public class EntityManager
     {
-        private Dictionary<EntityNamesEnum, BaseGameEntity> _entityMap = 
-            new Dictionary<EntityNamesEnum, BaseGameEntity>();
+        private readonly Dictionary<EntityNamesEnum, BaseGameEntity> _entityMap;
 
-        private EntityManager() { }
+        private EntityManager()
+        {
+            _entityMap = new Dictionary<EntityNamesEnum, BaseGameEntity>();
+        }
         private static EntityManager _instance;
 
         public static EntityManager GetInstance()

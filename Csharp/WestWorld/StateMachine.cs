@@ -2,7 +2,7 @@
 {
     public class StateMachine<T>
     {
-        private T _instanceOwner;
+        private readonly T _instanceOwner;
         public State<T> CurrentState { get; private set; }
         public State<T> PreviousState { get; private set; }
         public State<T> GlobalState { get; private set; }

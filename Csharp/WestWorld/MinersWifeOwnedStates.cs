@@ -42,7 +42,7 @@ namespace Csharp.WestWorld
             {
                 case MessageTypeEnum.HiHoneyImHome:
                     Console.WriteLine(
-                        string.Format("Message handled by {0} at time: {1}", entity.Name, DateTime.UtcNow));
+                        string.Format("Message handled by {0} at time: {1}", entity.Name, DateTime.UtcNow.Ticks));
                     Console.WriteLine(
                         string.Format("{0}: Hi honey. Let me make you some of mah fine country stew", entity.Name));
                     entity.GetFSM().ChangeState(CookStew.GetInstance());
@@ -157,7 +157,6 @@ namespace Csharp.WestWorld
             if (!entity.IsCooking)
             {
                 Console.WriteLine(string.Format("{0}: Putting the stew in the oven", entity.Name));
-
                 // send a delayed message myself so that I know when to take the stew out of the oven
                 GameManager.Dispatch().DispatchMessage(2, entity.Id, entity.Id, MessageTypeEnum.StewReady, null);
                 entity.SetCooking(true);
@@ -180,7 +179,7 @@ namespace Csharp.WestWorld
             {
                 case MessageTypeEnum.StewReady:
                     Console.WriteLine(
-                        string.Format("Message received by {0} at time: {1}", entity.Name, DateTime.UtcNow));
+                        string.Format("Message received by {0} at time: {1}", entity.Name, DateTime.UtcNow.Ticks));
                     Console.WriteLine(string.Format("{0}: StewReady! Lets eat", entity.Name));
                     GameManager.Dispatch().DispatchMessage(
                         MessageDispatcher.SEND_MESSAGE_IMMEDIATELY,

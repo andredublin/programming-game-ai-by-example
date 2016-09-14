@@ -182,7 +182,8 @@ namespace Csharp.WestWorld
             switch(message.Message)
             {
                 case MessageTypeEnum.StewReady:
-                    Console.WriteLine(string.Format("Message handled by {0} at time: {1}", entity.Name, DateTime.UtcNow));
+                    Console.WriteLine(
+                        string.Format("Message handled by {0} at time: {1}", entity.Name, DateTime.UtcNow.Ticks));
                     Console.WriteLine(string.Format("{0}: Okay Hun, ahm a comin'!", entity.Name));
                     entity.GetFSM().ChangeState(EatStew.GetInstance());
                     return true;

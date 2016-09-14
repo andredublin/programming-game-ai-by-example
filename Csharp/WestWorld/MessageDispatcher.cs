@@ -8,9 +8,12 @@ namespace Csharp.WestWorld
     {
         public const long SEND_MESSAGE_IMMEDIATELY = 0;
 
-        private HashSet<Telegram> _priorityQueue = new HashSet<Telegram>();
+        private readonly HashSet<Telegram> _priorityQueue;
 
-        private MessageDispatcher() { }
+        private MessageDispatcher()
+        {
+            _priorityQueue = new HashSet<Telegram>();
+        }
         private static MessageDispatcher _instance;
 
         public static MessageDispatcher GetInstance()
@@ -54,7 +57,7 @@ namespace Csharp.WestWorld
                 Console.WriteLine(
                     string.Format(
                         "Instant telegram dispatched at time: {0} by {1} for {2}. Message is {3}",
-                        DateTime.UtcNow,
+                        DateTime.UtcNow.Ticks,
                         sender.Id,
                         receiver.Id,
                         message));
@@ -70,7 +73,7 @@ namespace Csharp.WestWorld
                     string.Format(
                         "Delayed telegram from {0} recorded at time {1} for {2}. Message is {3}",
                         sender.Id,
-                        DateTime.UtcNow,
+                        DateTime.UtcNow.Ticks,
                         receiver.Id,
                         message));
             }
