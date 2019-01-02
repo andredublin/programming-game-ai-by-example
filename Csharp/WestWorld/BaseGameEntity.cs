@@ -4,7 +4,7 @@
     {
         public EntityNamesEnum Id { get; private set; }
 
-        public BaseGameEntity(EntityNamesEnum id)
+        protected BaseGameEntity(EntityNamesEnum id)
         {
             Id = id;
         }

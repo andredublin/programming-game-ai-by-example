@@ -6,7 +6,7 @@ namespace Csharp.WestWorld
 {
     public class MessageDispatcher
     {
-        public const long SEND_MESSAGE_IMMEDIATELY = 0;
+        public const long SendMessageImmediately = 0;
 
         private readonly HashSet<Telegram> _priorityQueue;
 
@@ -46,7 +46,7 @@ namespace Csharp.WestWorld
 
             if (receiver == null)
             {
-                Console.WriteLine(string.Format("Warning! No receiver with Id of {0} found", receiverId));
+                Console.WriteLine($"Warning! No receiver with Id of {receiverId} found");
                 return;
             }
 
@@ -54,13 +54,7 @@ namespace Csharp.WestWorld
 
             if (delay <= 0)
             {
-                Console.WriteLine(
-                    string.Format(
-                        "Instant telegram dispatched at time: {0} by {1} for {2}. Message is {3}",
-                        DateTime.UtcNow.Ticks,
-                        sender.Id,
-                        receiver.Id,
-                        message));
+                Console.WriteLine($"Instant telegram dispatched at time: {DateTime.UtcNow.Ticks} by {sender.Id} for {receiver.Id}. Message is {message}");
 
                 Discharge(receiver, telegram);
             }
@@ -69,13 +63,7 @@ namespace Csharp.WestWorld
                 var currentTime = DateTime.UtcNow.Ticks;
                 telegram.DispatchTime = currentTime + delay;
                 _priorityQueue.Add(telegram);
-                Console.WriteLine(
-                    string.Format(
-                        "Delayed telegram from {0} recorded at time {1} for {2}. Message is {3}",
-                        sender.Id,
-                        DateTime.UtcNow.Ticks,
-                        receiver.Id,
-                        message));
+                Console.WriteLine($"Delayed telegram from {sender.Id} recorded at time {DateTime.UtcNow.Ticks} for {receiver.Id}. Message is {message}");
             }
         }
 
@@ -84,17 +72,13 @@ namespace Csharp.WestWorld
             var currentTime = DateTime.UtcNow.Ticks;
 
             while (_priorityQueue.Count > 0 &&
-                (_priorityQueue.First().DispatchTime < currentTime) &&
-                (_priorityQueue.First().DispatchTime > 0))
+                _priorityQueue.First().DispatchTime < currentTime &&
+                _priorityQueue.First().DispatchTime > 0)
             {
                 var telegram = _priorityQueue.First();
                 var receiver = GameManager.EntityMgr().GetEntityFromId(telegram.Receiver);
 
-                Console.WriteLine(
-                    string.Format(
-                        "Queued telegram ready for dispatch: Sent to {0}. Message is {1}",
-                        receiver.Id,
-                        telegram.Message));
+                Console.WriteLine($"Queued telegram ready for dispatch: Sent to {receiver.Id}. Message is {telegram.Message}");
 
                 Discharge(receiver, telegram);
                 _priorityQueue.Remove(telegram);

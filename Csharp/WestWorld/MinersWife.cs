@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Csharp.WestWorld
+﻿namespace Csharp.WestWorld
 {
     public class MinersWife : BaseGameEntity
     {
@@ -29,7 +27,7 @@ namespace Csharp.WestWorld
             return _stateMachine.HandleMessage(message);
         }
 
-        public StateMachine<MinersWife> GetFSM()
+        public StateMachine<MinersWife> GetFsm()
         {
             return _stateMachine;
         }

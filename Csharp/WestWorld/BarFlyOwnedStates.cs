@@ -37,9 +37,9 @@ namespace Csharp.WestWorld
                     var rand = new Random();
 
                     // 5 in 10 chance of getting into a fight
-                    if (rand.Next(0, 9) < 4 && !entity.GetFSM().IsInState(FightWithMiner.GetInstance()))
+                    if (rand.Next(0, 9) < 4 && !entity.GetFsm().IsInState(FightWithMiner.GetInstance()))
                     {
-                        entity.GetFSM().ChangeState(FightWithMiner.GetInstance());
+                        entity.GetFsm().ChangeState(FightWithMiner.GetInstance());
                     }
                     return true;
             }
@@ -98,9 +98,9 @@ namespace Csharp.WestWorld
 
         public override void Enter(BarFly entity)
         {
-            Console.WriteLine(string.Format("{0}: I don't like the way ya look buddy", entity.Name));
+            Console.WriteLine($"{entity.Name}: I don't like the way ya look buddy");
             GameManager.Dispatch().DispatchMessage(
-                MessageDispatcher.SEND_MESSAGE_IMMEDIATELY,
+                MessageDispatcher.SendMessageImmediately,
                 entity.Id,
                 EntityNamesEnum.MinerBob,
                 MessageTypeEnum.LetsDanceBuddy,
@@ -109,14 +109,14 @@ namespace Csharp.WestWorld
 
         public override void Execute(BarFly entity)
         {
-            Console.WriteLine(string.Format("{0}: Take that and that and some of these!", entity.Name));
-            entity.GetFSM().RevertToPreviousState();
+            Console.WriteLine($"{entity.Name}: Take that and that and some of these!");
+            entity.GetFsm().RevertToPreviousState();
         }
 
         public override void Exit(BarFly entity)
         {
             GameManager.Dispatch().DispatchMessage(
-                MessageDispatcher.SEND_MESSAGE_IMMEDIATELY,
+                MessageDispatcher.SendMessageImmediately,
                 entity.Id,
                 EntityNamesEnum.MinerBob,
                 MessageTypeEnum.YouThrowAMeanHook,

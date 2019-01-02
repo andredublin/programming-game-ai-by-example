@@ -3,14 +3,14 @@
     public class Miner : BaseGameEntity
     {
         public const int ComfortLevel = 5;
-        private const int _maxNuggets = 3;
-        private const int _thirstLevel = 5;
-        private const int _tirednessThreshold = 5;
+        private const int MaxNuggets = 3;
+        private const int ThirstLevel = 5;
+        private const int TirednessThreshold = 5;
 
         private readonly StateMachine<Miner> _stateMachine;
         public readonly string Name;
 
-        private int _thrist;
+        private int _thirst;
 
         public Location Location { get; private set; }
         public int GoldCarried { get; private set; }
@@ -21,10 +21,10 @@
         public Miner(EntityNamesEnum id, string name) : base(id)
         {
             Name = name;
-            Location = Location.shack;
+            Location = Location.Shack;
             GoldCarried = 0;
             MoneyInBank = 0;
-            _thrist = 0;
+            _thirst = 0;
             Fatigue = 0;
             IsInFight = false;
             _stateMachine = new StateMachine<Miner>(this);
@@ -33,7 +33,7 @@
 
         public override void Update()
         {
-            _thrist = _thrist + 1;
+            _thirst = _thirst + 1;
             _stateMachine.Update();
         }
 
@@ -42,7 +42,7 @@
             return _stateMachine.HandleMessage(message);
         }
 
-        public StateMachine<Miner> GetFSM()
+        public StateMachine<Miner> GetFsm()
         {
             return _stateMachine;
         }
@@ -70,12 +70,12 @@
 
         public bool PocketsFull()
         {
-            return GoldCarried >= _maxNuggets;
+            return GoldCarried >= MaxNuggets;
         }
 
         public bool Fatigued()
         {
-            return Fatigue >= _tirednessThreshold;
+            return Fatigue >= TirednessThreshold;
         }
 
         public void IncreaseFatigue()
@@ -90,12 +90,12 @@
 
         public bool Thirsty()
         {
-            return _thrist >= _thirstLevel;
+            return _thirst >= ThirstLevel;
         }
 
         public void BuyAndDrinkWhiskey()
         {
-            _thrist = 0;
+            _thirst = 0;
             MoneyInBank = MoneyInBank - 2;
         }
 

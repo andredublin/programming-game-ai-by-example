@@ -2,7 +2,7 @@
 {
     public enum EntityNamesEnum
     {
-        unknown,
+        Unknown,
         MinerBob,
         Elsa,
         BarFly

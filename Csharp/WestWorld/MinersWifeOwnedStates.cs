@@ -26,9 +26,9 @@ namespace Csharp.WestWorld
             var rand = new Random();
             ;
             // 1 in 10 chance of needing the bathroom (provided she is not already in the bathroom)
-            if (rand.Next(0, 9) < 1 && !entity.GetFSM().IsInState(VisitBathroom.GetInstance()))
+            if (rand.Next(0, 9) < 1 && !entity.GetFsm().IsInState(VisitBathroom.GetInstance()))
             {
-                entity.GetFSM().ChangeState(VisitBathroom.GetInstance());
+                entity.GetFsm().ChangeState(VisitBathroom.GetInstance());
             }
         }
 
@@ -41,11 +41,9 @@ namespace Csharp.WestWorld
             switch (message.Message)
             {
                 case MessageTypeEnum.HiHoneyImHome:
-                    Console.WriteLine(
-                        string.Format("Message handled by {0} at time: {1}", entity.Name, DateTime.UtcNow.Ticks));
-                    Console.WriteLine(
-                        string.Format("{0}: Hi honey. Let me make you some of mah fine country stew", entity.Name));
-                    entity.GetFSM().ChangeState(CookStew.GetInstance());
+                    Console.WriteLine($"Message handled by {entity.Name} at time: {DateTime.UtcNow.Ticks}");
+                    Console.WriteLine($"{entity.Name}: Hi honey. Let me make you some of mah fine country stew");
+                    entity.GetFsm().ChangeState(CookStew.GetInstance());
                     return true;
             }
 
@@ -70,7 +68,7 @@ namespace Csharp.WestWorld
 
         public override void Enter(MinersWife entity)
         {
-            Console.WriteLine(string.Format("{0}: Time to do some more housework!", entity.Name));
+            Console.WriteLine($"{entity.Name}: Time to do some more housework!");
         }
 
         public override void Execute(MinersWife entity)
@@ -80,13 +78,13 @@ namespace Csharp.WestWorld
             switch(rand.Next(0, 2))
             {
                 case 0:
-                    Console.WriteLine(string.Format("{0}: Moppin' the floor", entity.Name));
+                    Console.WriteLine($"{entity.Name}: Moppin' the floor");
                     break;
                 case 1:
-                    Console.WriteLine(string.Format("{0}: Washin' the dishes", entity.Name));
+                    Console.WriteLine($"{entity.Name}: Washin' the dishes");
                     break;
                 case 2:
-                    Console.WriteLine(string.Format("{0}: Makin' the bed", entity.Name));
+                    Console.WriteLine($"{entity.Name}: Makin' the bed");
                     break;
             }
         }
@@ -118,18 +116,18 @@ namespace Csharp.WestWorld
 
         public override void Enter(MinersWife entity)
         {
-            Console.WriteLine(string.Format("{0}: Walkin' to the can. Need to powda mah pretty li'lle nose", entity.Name));
+            Console.WriteLine($"{entity.Name}: Walkin' to the can. Need to powda mah pretty li'lle nose");
         }
 
         public override void Execute(MinersWife entity)
         {
-            Console.WriteLine(string.Format("{0}: Ahhhhhh! Sweet relief!", entity.Name));
-            entity.GetFSM().RevertToPreviousState();
+            Console.WriteLine($"{entity.Name}: Ahhhhhh! Sweet relief!");
+            entity.GetFsm().RevertToPreviousState();
         }
 
         public override void Exit(MinersWife entity)
         {
-            Console.WriteLine(string.Format("{0}: Leavin' the Jon", entity.Name));
+            Console.WriteLine($"{entity.Name}: Leavin' the Jon");
         }
 
         public override bool OnMessage(MinersWife entity, Telegram message)
@@ -156,7 +154,7 @@ namespace Csharp.WestWorld
         {
             if (!entity.IsCooking)
             {
-                Console.WriteLine(string.Format("{0}: Putting the stew in the oven", entity.Name));
+                Console.WriteLine($"{entity.Name}: Putting the stew in the oven");
                 // send a delayed message myself so that I know when to take the stew out of the oven
                 GameManager.Dispatch().DispatchMessage(2, entity.Id, entity.Id, MessageTypeEnum.StewReady, null);
                 entity.SetCooking(true);
@@ -165,12 +163,12 @@ namespace Csharp.WestWorld
 
         public override void Execute(MinersWife entity)
         {
-            Console.WriteLine(string.Format("{0}: Fussin' over food", entity.Name));
+            Console.WriteLine($"{entity.Name}: Fussin' over food");
         }
 
         public override void Exit(MinersWife entity)
         {
-            Console.WriteLine(string.Format("{0}: Puttin' the stew on the table", entity.Name));
+            Console.WriteLine($"{entity.Name}: Puttin' the stew on the table");
         }
 
         public override bool OnMessage(MinersWife entity, Telegram message)
@@ -178,17 +176,16 @@ namespace Csharp.WestWorld
             switch(message.Message)
             {
                 case MessageTypeEnum.StewReady:
-                    Console.WriteLine(
-                        string.Format("Message received by {0} at time: {1}", entity.Name, DateTime.UtcNow.Ticks));
-                    Console.WriteLine(string.Format("{0}: StewReady! Lets eat", entity.Name));
+                    Console.WriteLine($"Message received by {entity.Name} at time: {DateTime.UtcNow.Ticks}");
+                    Console.WriteLine($"{entity.Name}: StewReady! Lets eat");
                     GameManager.Dispatch().DispatchMessage(
-                        MessageDispatcher.SEND_MESSAGE_IMMEDIATELY,
+                        MessageDispatcher.SendMessageImmediately,
                         entity.Id,
                         EntityNamesEnum.MinerBob,
                         MessageTypeEnum.StewReady,
                         null);
                     entity.SetCooking(false);
-                    entity.GetFSM().ChangeState(DoHouseWork.GetInstance());
+                    entity.GetFsm().ChangeState(DoHouseWork.GetInstance());
                     return true;
             }
 

@@ -2,10 +2,10 @@
 {
     public enum Location
     {
-        unknown,
-        shack,
-        goldmine,
-        bank,
-        saloon
+        Unknown,
+        Shack,
+        Goldmine,
+        Bank,
+        Saloon
     }
 }

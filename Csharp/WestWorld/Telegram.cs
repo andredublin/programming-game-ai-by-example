@@ -16,7 +16,7 @@ namespace Csharp.WestWorld
             EntityNamesEnum sender,
             EntityNamesEnum receiver,
             long time,
-            MessageTypeEnum message = MessageTypeEnum.unknown,
+            MessageTypeEnum message = MessageTypeEnum.Unknown,
             Dictionary<string, string> extraInfo = null)
         {
             Sender = sender;

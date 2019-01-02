@@ -26,10 +26,10 @@ namespace Csharp.WestWorld
 
         public override void Enter(Miner entity)
         {
-            if (entity.Location != Location.goldmine)
+            if (entity.Location != Location.Goldmine)
             {
-                Console.WriteLine(string.Format("{0}: Walking to the gold mine", entity.Name));
-                entity.ChangeLocation(Location.goldmine);
+                Console.WriteLine($"{entity.Name}: Walking to the gold mine");
+                entity.ChangeLocation(Location.Goldmine);
             }
         }
 
@@ -37,23 +37,22 @@ namespace Csharp.WestWorld
         {
             entity.AddToGoldCarried(1);
             entity.IncreaseFatigue();
-            Console.WriteLine(string.Format("{0}: Pickin' up a nugget", entity.Name));
+            Console.WriteLine($"{entity.Name}: Pickin' up a nugget");
 
             if (entity.PocketsFull())
             {
-                entity.GetFSM().ChangeState(VisitBankAndDepositGold.GetInstance());
+                entity.GetFsm().ChangeState(VisitBankAndDepositGold.GetInstance());
             }
 
             if (entity.Thirsty())
             {
-                entity.GetFSM().ChangeState(QuenchThirst.GetInstance());
+                entity.GetFsm().ChangeState(QuenchThirst.GetInstance());
             }
         }
 
         public override void Exit(Miner entity)
         {
-            Console.WriteLine(
-                string.Format("{0}: Ah'm leavin' the gold mine with mah pockets full o' sweet gold", entity.Name));
+            Console.WriteLine($"{entity.Name}: Ah'm leavin' the gold mine with mah pockets full o' sweet gold");
         }
 
         public override bool OnMessage(Miner entity, Telegram message)
@@ -85,36 +84,34 @@ namespace Csharp.WestWorld
 
         public override void Enter(Miner entity)
         {
-            if (entity.Location != Location.bank)
+            if (entity.Location != Location.Bank)
             {
-                Console.WriteLine(string.Format("{0}: Goin' to the bank. Yes siree", entity.Name));
+                Console.WriteLine($"{entity.Name}: Goin' to the bank. Yes siree");
             }
 
-            entity.ChangeLocation(Location.bank);
+            entity.ChangeLocation(Location.Bank);
         }
 
         public override void Execute(Miner entity)
         {
             // deposit gold
             entity.AddToWealth(entity.GoldCarried);
-            Console.WriteLine(
-                string.Format("{0}: Depositing gold. Total savings now: {1}", entity.Name, entity.MoneyInBank));
+            Console.WriteLine($"{entity.Name}: Depositing gold. Total savings now: {entity.MoneyInBank}");
 
             if (entity.MoneyInBank >= Miner.ComfortLevel)
             {
-                Console.WriteLine(
-                    string.Format("{0}: WooHoo! Rich enough for now. Back home to mah li'lle lady", entity.Name));
-                entity.GetFSM().ChangeState(GoHomeAndSleepTilRested.GetInstance());
+                Console.WriteLine($"{entity.Name}: WooHoo! Rich enough for now. Back home to mah li'lle lady");
+                entity.GetFsm().ChangeState(GoHomeAndSleepTilRested.GetInstance());
             }
             else
             {
-                entity.GetFSM().ChangeState(EnterMineAndDigForNuggetState.GetInstance());
+                entity.GetFsm().ChangeState(EnterMineAndDigForNuggetState.GetInstance());
             }
         }
 
         public override void Exit(Miner entity)
         {
-            Console.WriteLine(string.Format("{0}: Leavin' the bank", entity.Name));
+            Console.WriteLine($"{entity.Name}: Leavin' the bank");
         }
 
         public override bool OnMessage(Miner entity, Telegram message)
@@ -145,16 +142,16 @@ namespace Csharp.WestWorld
 
         public override void Enter(Miner entity)
         {
-            if (entity.Location != Location.shack)
+            if (entity.Location != Location.Shack)
             {
-                Console.WriteLine(string.Format("{0}: Walkin' home", entity.Name));
+                Console.WriteLine($"{entity.Name}: Walkin' home");
                 GameManager.Dispatch().DispatchMessage(
-                    MessageDispatcher.SEND_MESSAGE_IMMEDIATELY,
+                    MessageDispatcher.SendMessageImmediately,
                     entity.Id,
                     EntityNamesEnum.Elsa,
                     MessageTypeEnum.HiHoneyImHome,
                     null);
-                entity.ChangeLocation(Location.shack);
+                entity.ChangeLocation(Location.Shack);
             }
         }
 
@@ -162,14 +159,13 @@ namespace Csharp.WestWorld
         {
             if (!entity.Fatigued())
             {
-                Console.WriteLine(
-                    string.Format("{0}: All mah fatigue has drained away. Time to find more gold!", entity.Name));
-                entity.GetFSM().ChangeState(EnterMineAndDigForNuggetState.GetInstance());
+                Console.WriteLine($"{entity.Name}: All mah fatigue has drained away. Time to find more gold!");
+                entity.GetFsm().ChangeState(EnterMineAndDigForNuggetState.GetInstance());
             }
             else
             {
                 entity.DecreaseFatigue();
-                Console.WriteLine(string.Format("{0}: ZZZZ...", entity.Name));
+                Console.WriteLine($"{entity.Name}: ZZZZ...");
             }
         }
 
@@ -179,17 +175,16 @@ namespace Csharp.WestWorld
 
         public override bool OnMessage(Miner entity, Telegram message)
         {
-            switch(message.Message)
+            switch (message.Message)
             {
                 case MessageTypeEnum.StewReady:
-                    Console.WriteLine(
-                        string.Format("Message handled by {0} at time: {1}", entity.Name, DateTime.UtcNow.Ticks));
-                    Console.WriteLine(string.Format("{0}: Okay Hun, ahm a comin'!", entity.Name));
-                    entity.GetFSM().ChangeState(EatStew.GetInstance());
+                    Console.WriteLine($"Message handled by {entity.Name} at time: {DateTime.UtcNow.Ticks}");
+                    Console.WriteLine($"{entity.Name}: Okay Hun, ahm a comin'!");
+                    entity.GetFsm().ChangeState(EatStew.GetInstance());
                     return true;
+                default:
+                    return false;
             }
-
-            return false;
         }
     }
 
@@ -216,13 +211,13 @@ namespace Csharp.WestWorld
 
         public override void Enter(Miner entity)
         {
-            if (entity.Location != Location.saloon)
+            if (entity.Location != Location.Saloon)
             {
-                entity.ChangeLocation(Location.saloon);
-                Console.WriteLine(string.Format("{0}: Boy, ah sure is thusty! Walking to the saloon", entity.Name));
+                entity.ChangeLocation(Location.Saloon);
+                Console.WriteLine($"{entity.Name}: Boy, ah sure is thusty! Walking to the saloon");
 
                 GameManager.Dispatch().DispatchMessage(
-                    MessageDispatcher.SEND_MESSAGE_IMMEDIATELY,
+                    MessageDispatcher.SendMessageImmediately,
                     entity.Id,
                     EntityNamesEnum.BarFly,
                     MessageTypeEnum.MinerEnteredTheBar,
@@ -235,14 +230,14 @@ namespace Csharp.WestWorld
             if (!entity.IsInFight)
             {
                 entity.BuyAndDrinkWhiskey();
-                Console.WriteLine(string.Format("{0}: That's mighty fine sippin' liquer", entity.Name));
-                entity.GetFSM().ChangeState(EnterMineAndDigForNuggetState.GetInstance());
+                Console.WriteLine($"{entity.Name}: That's mighty fine sippin' liquer");
+                entity.GetFsm().ChangeState(EnterMineAndDigForNuggetState.GetInstance());
             }
         }
 
         public override void Exit(Miner entity)
         {
-            Console.WriteLine(string.Format("{0}: Leaving the saloon, feelin' good", entity.Name));
+            Console.WriteLine($"{entity.Name}: Leaving the saloon, feelin' good");
         }
 
         public override bool OnMessage(Miner entity, Telegram message)
@@ -250,16 +245,16 @@ namespace Csharp.WestWorld
             switch (message.Message)
             {
                 case MessageTypeEnum.LetsDanceBuddy:
-                    Console.WriteLine(string.Format("{0}: This here varmint is tryin' to take me fer all my gold!", entity.Name));
+                    Console.WriteLine($"{entity.Name}: This here varmint is tryin' to take me fer all my gold!");
                     entity.SetInAFight(true);
                     return true;
                 case MessageTypeEnum.YouThrowAMeanHook:
-                    Console.WriteLine(string.Format("{0}: Next time pick on someone your own size", entity.Name));
+                    Console.WriteLine($"{entity.Name}: Next time pick on someone your own size");
                     entity.SetInAFight(false);
                     return true;
+                default:
+                    return false;
             }
-
-            return false;
         }
     }
 
@@ -281,19 +276,18 @@ namespace Csharp.WestWorld
 
         public override void Enter(Miner entity)
         {
-            Console.WriteLine(string.Format("{0}: Smells Reaaal good Elsa!", entity.Name));
+            Console.WriteLine($"{entity.Name}: Smells Reaaal good Elsa!");
         }
 
         public override void Execute(Miner entity)
         {
-            Console.WriteLine(string.Format("{0}: Tastes real good too!", entity.Name));
-            entity.GetFSM().RevertToPreviousState();
+            Console.WriteLine($"{entity.Name}: Tastes real good too!");
+            entity.GetFsm().RevertToPreviousState();
         }
 
         public override void Exit(Miner entity)
         {
-            Console.WriteLine(
-                string.Format("{0}: Thankya li'lle lady. Ah better get back to whatever ah wuz doin", entity.Name));
+            Console.WriteLine($"{entity.Name}: Thankya li'lle lady. Ah better get back to whatever ah wuz doin");
         }
 
         public override bool OnMessage(Miner entity, Telegram message)

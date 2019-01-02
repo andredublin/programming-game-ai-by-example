@@ -23,7 +23,7 @@
             _stateMachine.Update();
         }
 
-        public StateMachine<BarFly> GetFSM()
+        public StateMachine<BarFly> GetFsm()
         {
             return _stateMachine;
         }

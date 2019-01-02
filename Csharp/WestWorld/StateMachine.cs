@@ -30,15 +30,9 @@
         // Updates the FSM
         public void Update()
         {
-            if (GlobalState != null)
-            {
-                GlobalState.Execute(_instanceOwner);
-            }
+            GlobalState?.Execute(_instanceOwner);
 
-            if (CurrentState != null)
-            {
-                CurrentState.Execute(_instanceOwner);
-            }
+            CurrentState?.Execute(_instanceOwner);
         }
 
         public bool HandleMessage(Telegram message)

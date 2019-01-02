@@ -2,7 +2,7 @@
 {
     public enum MessageTypeEnum
     {
-        unknown,
+        Unknown,
         HiHoneyImHome,
         StewReady,
         MinerEnteredTheBar,
