@@ -6,11 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="WestWorld1\Entities.fs" />
     <Compile Include="Program.fs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="WestWorld\" />
   </ItemGroup>
 
 </Project>
